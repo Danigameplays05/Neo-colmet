@@ -1,0 +1,4 @@
+sk_d123150c074a8dabb93ba492395efdb9bf695f041fffd193 ---> elevenlab
+sk_4b71d49009158e6d804d480c2f226fc6c293c16d0baeaa0f ---> elevenlab2
+
+AIzaSyBOv0gSRO2iR2S_XOE3k_JFhry0hcEkFKM ---> Gemini AI

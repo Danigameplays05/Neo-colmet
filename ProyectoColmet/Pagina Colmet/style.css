@@ -1,0 +1,38 @@
+
+                body {
+                    background-color: #333;
+                    color: #333;
+                    font-family: Arial, sans-serif;
+                }
+
+                h1 {
+                    color: #3498db;
+                }
+
+                p {
+                    color: #666;
+                }
+
+                a {
+                    color: #3498db;
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    color: #2ecc71;
+                    text-decoration: underline;
+                }
+
+                button {
+                    background-color: #4CAF50;
+                    color: #fff;
+                    border: none;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+
+                button:hover {
+                    background-color: #3e8e41;
+                }
+                

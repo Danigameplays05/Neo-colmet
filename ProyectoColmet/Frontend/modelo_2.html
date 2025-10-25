@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Colmet</title>
+</head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #000510 0%, #00142c 100%);
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      animation: float 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    .svg-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      filter: drop-shadow(0 0 10px rgba(0, 195, 255, 0.5));
+    }
+
+    .svg-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hologram-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent 0%, rgba(0, 195, 255, 0.1) 50%, transparent 100%);
+      animation: hologram 3s linear infinite;
+      z-index: 3;
+    }
+
+    .scan-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, 
+        transparent 0%,
+        rgba(0, 195, 255, 0.8) 50%,
+        transparent 100%
+      );
+      filter: blur(1px);
+      animation: scan 2s linear infinite;
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.8);
+      z-index: 4;
+    }
+
+    .outer-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 650px;
+      height: 650px;
+      border: 2px solid rgba(0, 195, 255, 0.3);
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+    }
+
+    .middle-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border: 1px solid rgba(0, 195, 255, 0.2);
+      border-radius: 50%;
+      animation: rotate-reverse 15s linear infinite;
+    }
+
+    .inner-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 550px;
+      height: 550px;
+      border: 1px solid rgba(0, 195, 255, 0.1);
+      border-radius: 50%;
+      animation: rotate 10s linear infinite;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(0, 195, 255, 0.8);
+      border-radius: 50%;
+      animation: particle-float 3s infinite;
+    }
+
+    .wave-container {
+      position: relative;
+      width: 300px;
+      height: 80px;
+      margin-top: 40px;
+      background: rgba(0, 195, 255, 0.05);
+      border-radius: 40px;
+      padding: 10px;
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.2);
+      z-index: 5;
+    }
+
+    .wave {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .wave span {
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 195, 255, 0.2), rgba(0, 195, 255, 0.8));
+      animation: wave var(--delay) ease-in-out infinite;
+      border-radius: 20px;
+      filter: drop-shadow(0 0 5px rgba(0, 195, 255, 0.5));
+    }
+
+    .data-stream {
+      position: absolute;
+      font-family: monospace;
+      color: rgba(0, 195, 255, 0.8);
+      font-size: 12px;
+      white-space: nowrap;
+      text-shadow: 0 0 5px rgba(0, 195, 255, 0.5);
+      animation: data-scroll 10s linear infinite;
+      opacity: 0.5;
+      z-index: 3;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotateX(0deg); }
+      50% { transform: translateY(-20px) rotateX(5deg); }
+    }
+
+    @keyframes scan {
+      0% { top: -10%; opacity: 0; }
+      50% { opacity: 1; }
+      100% { top: 110%; opacity: 0; }
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes rotate-reverse {
+      0% { transform: translate(-50%, -50%) rotate(360deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.2); }
+      50% { transform: scaleY(1); }
+    }
+
+    @keyframes particle-float {
+      0%, 100% { transform: translate(0, 0); opacity: 0; }
+      50% { transform: translate(var(--x), var(--y)); opacity: 1; }
+    }
+
+    @keyframes hologram {
+      0% { opacity: 0.1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 0.1; }
+    }
+
+    @keyframes data-scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    #energyPoints circle {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { r: 6; fill: #00ffff; }
+      50% { r: 8; fill: #80ffff; }
+      100% { r: 6; fill: #00ffff; }
+    }
+
+    #circuitPattern path {
+      animation: circuit-glow 4s infinite;
+    }
+
+    @keyframes circuit-glow {
+      0% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+      100% { opacity: 0.3; }
+    }
+  </style>
+</head>
+</html>
+  <div class="container">
+    <div class="logo-container">
+      <div class="outer-circle"></div>
+      <div class="middle-circle"></div>
+      <div class="inner-circle"></div>
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+          <!-- Fondo circular con efecto de resplandor -->
+          <defs>
+            <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#0066cc" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#003366" stop-opacity="0"/>
+            </radialGradient>
+            
+            <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0099ff"/>
+              <stop offset="50%" stop-color="#0066cc"/>
+              <stop offset="100%" stop-color="#003366"/>
+            </linearGradient>
+
+            <pattern id="circuitPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M0 20 H40 M20 0 V40" stroke="#0099ff" stroke-width="0.5" fill="none" opacity="0.3"/>
+              <circle cx="20" cy="20" r="2" fill="#0099ff" opacity="0.3"/>
+            </pattern>
+          </defs>
+
+          <circle cx="400" cy="400" r="380" fill="url(#circuitPattern)"/>
+          <circle cx="400" cy="400" r="350" fill="none" stroke="url(#metalGradient)" stroke-width="4"/>
+          <circle cx="400" cy="400" r="320" fill="none" stroke="#0099ff" stroke-width="2" opacity="0.5"/>
+          
+          <path d="M250 400 Q400 250 550 400 Q400 550 250 400" 
+                fill="none" 
+                stroke="url(#metalGradient)" 
+                stroke-width="8"/>
+          
+          <circle cx="400" cy="400" r="80" fill="none" stroke="#0099ff" stroke-width="3"/>
+          <path d="M320 400 h160 M400 320 v160" stroke="#0099ff" stroke-width="2" opacity="0.7"/>
+          <path d="M340 400 q60 -60 120 0 q-60 60 -120 0" fill="none" stroke="#0099ff" stroke-width="2"/>
+          
+          <g id="connectionPoints">
+            <circle cx="400" cy="320" r="4" fill="#00ffff"/>
+            <circle cx="400" cy="480" r="4" fill="#00ffff"/>
+            <circle cx="320" cy="400" r="4" fill="#00ffff"/>
+            <circle cx="480" cy="400" r="4" fill="#00ffff"/>
+          </g>
+          
+          <g id="techDetails">
+            <path d="M270 400 L230 400" stroke="#0099ff" stroke-width="2"/>
+            <path d="M530 400 L570 400" stroke="#0099ff" stroke-width="2"/>
+            <path d="M400 270 L400 230" stroke="#0099ff" stroke-width="2"/>
+            <path d="M400 530 L400 570" stroke="#0099ff" stroke-width="2"/>
+          </g>
+          
+          <g id="energyPoints">
+            <circle cx="230" cy="400" r="6" fill="#00ffff"/>
+            <circle cx="570" cy="400" r="6" fill="#00ffff"/>
+            <circle cx="400" cy="230" r="6" fill="#00ffff"/>
+            <circle cx="400" cy="570" r="6" fill="#00ffff"/>
+          </g>
+          
+          <text x="400" y="650" 
+                text-anchor="middle" 
+                fill="#0099ff" 
+                font-family="Arial, sans-serif" 
+                font-size="24"
+                font-weight="bold">
+            CIENCIA Y CULTURA PARA EL FUTURO
+          </text>
+        </svg>
+      </div>
+      <div class="hologram-effect"></div>
+      <div class="scan-line"></div>
+      <div class="particles"></div>
+      <div class="data-stream">INICIANDO SISTEMAS... ANALIZANDO DATOS... PROCESANDO INFORMACIÓN... CONECTANDO A LA RED GLOBAL...</div>
+    </div>
+    
+    <div class="wave-container">
+      <div class="wave">
+        <script>
+          // Crear partículas
+          const particles = document.querySelector('.particles');
+          for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.setProperty('--x', `${Math.random() * 200 - 100}px`);
+            particle.style.setProperty('--y', `${Math.random() * 200 - 100}px`);
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 3}s`;
+            particles.appendChild(particle);
+          }
+
+          // Crear ondas de audio
+          const wave = document.querySelector('.wave');
+          for (let i = 0; i < 30; i++) {
+            const span = document.createElement('span');
+            span.style.setProperty('--delay', `${i * 0.05}s`);
+            wave.appendChild(span);
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
